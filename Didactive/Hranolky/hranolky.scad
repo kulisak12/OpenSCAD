@@ -50,7 +50,7 @@ module board() {
 		union() {
 			roundedCuboid([boardSize, boardSize, boardHeigth], roundness);
 			edge();
-			translate([0, boardSize, 0]) edge();
+			translate([0, boardSize - edgeWidth, 0]) edge();
 			translate([edgeWidth, 0, 0]) rotate([0, 0, 90]) edge();
 			translate([boardSize, 0, 0]) rotate([0, 0, 90]) edge();
 		}
