@@ -2,15 +2,25 @@ $fn = 50;
 include<logo.scad>
 
 a = 50; // strana krychle v mm
-magnetDiameter = 16; // prumer magnetu
+rawMagnetDiameter = 16; // prumer magnetu
 rawMagnetHeight = 5; // vyska magnetu
+indentSize = 3; // velikost vystupku
+indentWidth = 0.7; // tloustka vystupku
+
 logoDepth = 0.5; // hloubka loga
 
+// rezervy
 magnetHeight = rawMagnetHeight + 1;
+magnetDiameter = rawMagnetDiameter + 0.0; // zde lze upravit
 
 module magnetHole() {
-	translate([a/3, a/3, sqrt(0.501) * a - magnetHeight])
-		cylinder(d1 = magnetDiameter - 0.3, d2 = magnetDiameter + 0.1, h = magnetHeight);
+	translate([a/3, a/3, sqrt(0.501) * a - magnetHeight]) difference() {
+		cylinder(d = magnetDiameter + 2*indentSize, h = magnetHeight);
+		for (i = [0 : 120 : 240]) {
+			rotate([0, 0, i]) translate([magnetDiameter/2, -indentWidth/2, 0])
+				cube([indentSize, indentWidth, magnetHeight]);
+		}
+	}
 }
 
 module pyramid() {
