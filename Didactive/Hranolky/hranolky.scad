@@ -4,6 +4,7 @@ include<logo.scad>
 a = 15; // jednotková vzdálenost
 includeMarks = true; // zářezy na hranolku
 markSize = 0.5; // velikost zážezu
+numCubes = 10; // počet jednotek
 
 edgeHeight = 5; // výška okraje destičky
 edgeWidth = 3; // tloušťka okraje destičky
@@ -13,7 +14,7 @@ extraSpace = 2; // rezerva
 roundness = 1; // zaoblení
 logoDepth = 0.5; // hloubka loga
 
-boardSize = 10*a + extraSpace + 2*edgeWidth;
+boardSize = numCubes*a + extraSpace + 2*edgeWidth;
 
 module roundedCuboid(size = [1, 1, 1], r = 1) {
 	hull() {
