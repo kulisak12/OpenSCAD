@@ -9,10 +9,11 @@ numCubes = 10; // počet jednotek
 edgeHeight = 5; // výška okraje destičky
 edgeWidth = 3; // tloušťka okraje destičky
 boardHeigth = 2; // tloušťka destičky
-extraSpace = 2; // rezerva
+extraSpace = 4; // rezerva
 
 roundness = 1; // zaoblení
 logoDepth = 0.5; // hloubka loga
+logoSize = 20; // velikost loga
 
 boardSize = numCubes*a + extraSpace + 2*edgeWidth;
 
@@ -27,7 +28,7 @@ module roundedCuboid(size = [1, 1, 1], r = 1) {
 		translate([size[0] - r, size[1] - r, r]) sphere(r);
 		translate([size[0] - r, r, size[2] - r]) sphere(r);
 		translate([size[0] - r, size[1] - r, size[2] - r]) sphere(r);
-		}
+	}
 }
 
 module markedCuboid(size) {
@@ -55,8 +56,8 @@ module board() {
 			translate([edgeWidth, 0, 0]) rotate([0, 0, 90]) edge();
 			translate([boardSize, 0, 0]) rotate([0, 0, 90]) edge();
 		}
-		translate([35, 5, 0]) mirror([1, 0, 0])
-		resize([30, 0, 1.01*logoDepth], auto=true) logo();
+		translate([boardSize - logoSize - 3, logoDepth, (boardHeigth + edgeHeight - 0.15*logoSize) / 2])
+		rotate([90, 0, 0]) resize([logoSize, 0, 1.01*logoDepth], auto=true) logoText();
 	}
 }
 
