@@ -54,7 +54,14 @@ module smallHole() {
 	translate([0, 0, -0.01]) cylinder(d = 5, h = 1.01*thickness);
 }
 
-translate([0, 0, thickness]) rim();
+intersection() {
+	union() {
+		translate([0, 0, thickness]) rim();
+		translate([50, -1, thickness]) cube([250, 2, 2]); // center stripe
+	}
+	translate([212, 0, -135]) rotate([0, -5, 0]) cube(300, center=true);
+	translate([175, 0, -140]) rotate([0, 4, 0]) cube(300, center=true);
+}
 
 difference() {
 	base();
@@ -92,3 +99,7 @@ difference() {
 	translate([296.5, 16.5, 0]) hole();
 	translate([296.5, -16.5, 0]) hole();
 }
+
+// fuel cell holders
+translate([115, -80, thickness]) cube([2, 65, 10]);
+translate([218.5, -80, thickness]) cube([2, 65, 10]);
