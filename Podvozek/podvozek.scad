@@ -1,28 +1,28 @@
 $fn = 25;
 
 round = 3;
-thickness = 3;
+thickness = 3.5;
 vertexes = [
 	[0 + round, 0],
 	[7 + 0.6*round, 23.5 - 0.8*round],
-	[65 + 0.6*round, 23.5 - 0.8*round],
+	[65 + 0.6*round, 42 - 0.8*round],
 	[95 - 0.6*round, 80 - 0.8*round],
 	[251 - 0.6*round, 80 - 0.8*round],
-	[283 - 0.6*round, 21 - 0.8*round],
-	[324 - 0.6*round, 21 - 0.8*round],
-	[333 - 0.8*round, 14 - 0.6*round],
+	[280 - 0.6*round, 42 - 0.8*round],
+	[326 - 0.6*round, 21 - 0.8*round],
+	[336 - 0.8*round, 14 - 0.6*round],
 
-	[333 - 0.8*round, -(14 - 0.6*round)],
-	[324 - 0.6*round, -(21 - 0.8*round)],
-	[283 - 0.6*round, -(21 - 0.8*round)],
+	[336 - 0.8*round, -(14 - 0.6*round)],
+	[326 - 0.6*round, -(21 - 0.8*round)],
+	[280 - 0.6*round, -(42 - 0.8*round)],
 	[251 - 0.6*round, -(80 - 0.8*round)],
 	[95 - 0.6*round, -(80 - 0.8*round)],
-	[65 + 0.6*round, -(23.5 - 0.8*round)],
+	[65 + 0.6*round, -(42 - 0.8*round)],
 	[7 + 0.6*round, -(23.5 - 0.8*round)],
 ];
 
 module base() {
-	linear_extrude(height = 3) {
+	linear_extrude(height = thickness) {
 		minkowski() {
 			polygon(points = vertexes);
 			circle(r = round);
@@ -48,6 +48,10 @@ module rim() {
 module screwHole() {
 	translate([0, 0, -0.01]) cylinder(d = 6, h = 0.4*thickness);
 	cylinder(d = 3, h = 1.01*thickness);
+}
+
+module invertScrewHole() {
+	translate([0, 0, thickness+0.02]) mirror([0, 0, 1]) screwHole();
 }
 
 module hole(dia) {
@@ -86,20 +90,21 @@ module podvozek() {
 		translate([153, 22, 0]) screwHole();
 		translate([152.5, 30, 0]) hole(5);
 
-		translate([259, -12.5, 0]) screwHole();
-		translate([261.5, 10.5, 0]) screwHole();
-		translate([262, 34, 0]) screwHole();
-		translate([267.5, 41, 0]) screwHole();
+		translate([184.5, 10.3, 0]) screwHole();
+		translate([261, -12, 0]) screwHole();
+		translate([262.5, 12, 0]) screwHole();
+		translate([264, 35, 0]) screwHole();
+		translate([269.5, 41, 0]) screwHole();
 
 		// back part
-		translate([329, 11, 0]) screwHole();
-		translate([329, -11, 0]) screwHole();
-		translate([314.5, 16.5, 0]) hole(5);
-		translate([314.5, -16.5, 0]) hole(5);
-		translate([307.5, 16.5, 0]) screwHole();
-		translate([307.5, -16.5, 0]) screwHole();
-		translate([296.5, 16.5, 0]) screwHole();
-		translate([296.5, -16.5, 0]) screwHole();
+		translate([331, 11, 0]) screwHole();
+		translate([331, -11, 0]) screwHole();
+		translate([316.5, 16.8, 0]) hole(5);
+		translate([316.5, -16.8, 0]) hole(5);
+		translate([309.5, 16.8, 0]) screwHole();
+		translate([309.5, -16.8, 0]) screwHole();
+		translate([298.5, 16.8, 0]) screwHole();
+		translate([298.5, -16.8, 0]) screwHole();
 
 		// for holder
 		translate([137.5, 71, 0]) screwHole();
@@ -108,18 +113,32 @@ module podvozek() {
 		translate([239.5, 71, 0]) screwHole();
 		translate([237.5, -68, 0]) screwHole();
 		translate([249.5, -68, 0]) screwHole();
+
+		// connectors
+		translate([160, 0, 0]) {
+			translate([13, -60, -0.01]) invertScrewHole();
+			translate([7, -40, -0.01]) invertScrewHole();
+			translate([13, -20, -0.01]) invertScrewHole();
+			translate([13, 20, -0.01]) invertScrewHole();
+			translate([7, 40, -0.01]) invertScrewHole();
+			translate([13, 60, -0.01]) invertScrewHole();
+		}
+
+		// for metal plate
+		translate([15, 0, -0.01]) invertScrewHole();
+		translate([325, 0, -0.01]) invertScrewHole();
 	}
 
 	// fuel cell holders
 	translate([112, -80, thickness]) difference() {
 		cube([2, 68, 8]);
-		translate([0, 6, 3]) rotate([0, 90, 0]) hole(2);
-		translate([0, 58, 3]) rotate([0, 90, 0]) hole(2);
+		translate([0, 5, 4]) rotate([0, 90, 0]) hole(2);
+		translate([0, 63.5, 4]) rotate([0, 90, 0]) hole(2);
 	}
 	translate([218, -80, thickness]) difference() {
 		cube([2, 68, 8]);
-		translate([0, 6, 3]) rotate([0, 90, 0]) hole(2);
-		translate([0, 58, 3]) rotate([0, 90, 0]) hole(2);
+		translate([0, 5, 4]) rotate([0, 90, 0]) hole(2);
+		translate([0, 63.5, 4]) rotate([0, 90, 0]) hole(2);
 	}
 }
 
@@ -168,5 +187,18 @@ module holder() {
 	translate([150, -92, -37]) leg();
 }
 
-podvozek();
+module divider() {
+	translate([-100, 0, 0]) cube([200, 200, 30], center=true);
+	difference() {
+		for (i = [-90 : 40 : 70]) {
+			translate([0, i, 0]) rotate([0, -10, 0]) cube([20, 20, 10]);
+			translate([0, i+20, thickness]) rotate([0, 10, 0]) translate([0, 0, -10]) cube([20, 20, 10]);
+		}
+	}
+}
+
+difference() {
+	podvozek();
+	translate([160, 0, 0]) divider();
+}
 //translate([93.5, 24, 40]) holder();
