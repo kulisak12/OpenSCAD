@@ -77,18 +77,18 @@ module podvozek() {
 		translate([14, -19, 0]) screwHole();
 		translate([40, 17, 0]) hole(5);
 		translate([40, -17, 0]) hole(5);
-		translate([47.5, 17, 0]) screwHole();
-		translate([47.5, -17, 0]) screwHole();
-		translate([61, 17, 0]) screwHole();
-		translate([61, -17, 0]) screwHole();
+		translate([48.5, 17, 0]) screwHole();
+		translate([48.5, -17, 0]) screwHole();
+		translate([59, 17, 0]) screwHole();
+		translate([59, -17, 0]) screwHole();
 
 		// middle part
-		translate([97.5, 24, 0]) screwHole();
+		translate([96.5, 24, 0]) screwHole();
 		translate([96.5, -24.5, 0]) screwHole();
 		translate([105, 23, 0]) screwHole();
 		translate([105.5, 31, 0]) hole(5);
-		translate([153, 22, 0]) screwHole();
-		translate([152.5, 30, 0]) hole(5);
+		translate([154, 23.5, 0]) screwHole();
+		translate([154, 31.5, 0]) hole(5);
 
 		translate([184.5, 10.3, 0]) screwHole();
 		translate([261, -12, 0]) screwHole();
@@ -197,7 +197,7 @@ module divider() {
 	}
 }
 
-difference() {
+intersection() {
 	podvozek();
 	translate([160, 0, 0]) divider();
 }
