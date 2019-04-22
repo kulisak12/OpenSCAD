@@ -1,10 +1,10 @@
-$fn = 25;
+$fn = 15;
 include<logo.scad>
 
 a = 15; // jednotková vzdálenost
 numCubes = 10; // počet jednotek
 
-edgeWidth = 3; // prostor kolem hranolku, respektive vzdálenost mezi nimi
+border = 3; // prostor kolem hranolku, respektive vzdálenost mezi nimi
 boardHeight = 7; // plná tloušťka destičky
 indentDepth = 5; // hloubka díry pro hranolek
 extraSpace = 0.5; // rezerva
@@ -13,30 +13,37 @@ roundness = 1; // zaoblení
 logoDepth = 0.5; // hloubka loga
 logoSize = 20; // velikost loga
 
-chunkWidth = a + 2*extraSpace + 2*edgeWidth;
+chunkSize = a + border + 2*extraSpace;
+boardSize = numCubes * chunkSize + border;
+
+module base() {
+	translate([roundness, roundness, 0]) sphere(roundness);
+	translate([chunkSize + border - roundness, roundness, 0]) sphere(roundness);
+	translate([10*a + 2*border - roundness, boardSize - chunkSize - roundness, 0]) sphere(roundness);
+	translate([10*a + 2*border - roundness, boardSize - roundness, 0]) sphere(roundness);
+	translate([roundness, boardSize - roundness, 0]) sphere(roundness);
+}
 
 module chunk(size) {
-	chunkLength = size*a + 2*extraSpace + 2*edgeWidth;
-	minkowski() {
-		union() {
-			difference() {
-				cube([chunkWidth - 2*roundness, chunkLength - 2*roundness, boardHeight]);
-				translate([edgeWidth - 2*roundness, edgeWidth - 2*roundness, boardHeight - indentDepth])
-				cube([a + 2*extraSpace + 2*roundness, size*a + 2*extraSpace + 2*roundness, 1.01*indentDepth]);
-			}
-		}
-		sphere(roundness);
-	}
+	cube([a*size + 2*extraSpace, a + 2*extraSpace, indentDepth]);
 }
 
 module board() {
-	for (i = [0:numCubes-1]) {
-		translate([i * (chunkWidth - edgeWidth), 0, 0]) chunk(i+1);
+	difference() {
+		hull() {
+			translate([0, 0, roundness]) base();
+			translate([0, 0, boardHeight - roundness]) base();	
+		}
+		// indents
+		for (i = [1 : numCubes]) {
+			translate([border, border + (i-1) * chunkSize, 3]) chunk(i);
+		}
 	}
 }
 
 difference() {
 	board();
-	translate([numCubes * (a + edgeWidth + 2*extraSpace) - logoSize - 2, logoDepth - roundness, (boardHeight - 0.15*logoSize) / 2])
-	rotate([90, 0, 0]) resize([logoSize, 0, 1.01*logoDepth], auto=true) logoText();
+	// logo
+	translate([logoSize + 2, boardSize - logoDepth, (boardHeight - 0.15*logoSize) / 2])
+	rotate([90, 0, 180]) resize([logoSize, 0, 1.01*logoDepth], auto=true) logoText();
 }
