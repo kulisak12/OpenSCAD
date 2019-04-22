@@ -55,7 +55,7 @@ module invertScrewHole() {
 }
 
 module hole(dia) {
-	translate([0, 0, -0.01]) cylinder(d = dia, h = 1.01*thickness);
+	translate([0, 0, -0.01]) cylinder(d = dia, h = 1.01*10);
 }
 
 module podvozek() {
@@ -142,49 +142,72 @@ module podvozek() {
 	}
 }
 
+module diagonal() {
+	difference() {
+		rotate([0, 45, 0]) cube([17, 1, 17]);
+		translate([0, -0.01, -26]) cube([25, 1.02, 25]);
+	}
+}
+
 module leg() {
 	difference() {
-		translate([0, 0, 1.5]) cube([18, 6, 3], center=true);
-		translate([-6, 0, 0]) hole(2);
-		translate([6, 0, 0]) hole(2);
+		translate([0, 0, 2]) cube([24, 8, 4], center=true);
+		translate([-8, 0, 0]) hole(3);
+		translate([8, 0, 0]) hole(3);
 	}
-	translate([-3, -3, 0]) cube([6, 6, 38]);
+	translate([-4, -4, 0]) cube([8, 8, 35]);
+	translate([-12, 3, 4]) diagonal();
+	translate([-12, -4, 4]) diagonal();
+}
+
+module thinHole() {
+	hole(3);
+	translate([0, 0, -0.01]) cylinder(d=8, h=3.1);
 }
 
 module holder() {
-	holderThickness = 3;
+	holderThickness = 6;
 	holderPoints = [
 		[-1, -2], // screw 3
 		[10, -18],
-		[90, -18], // screw 2
-		[140, -30],
-		[140, -95],
-		[173, -95],
-		[173, -18], // screw 1a
-		[173, 50],
+		[90, -19], // screw 2
+		[130, -30],
+		[130, -95],
+		[174, -95],
+		[174, -18], // screw 1a
+		[174, 50],
 		[35, 50],
 		[25, 10],
 		[-1, 4],
 	];
 
 	difference() {
-		linear_extrude(height = holderThickness) {
-			polygon(points = holderPoints);
+		union() {
+			linear_extrude(height = holderThickness) {
+				polygon(points = holderPoints);
+			}
+			translate([80, -19, 3]) cube([20, 14, 3]);
+			translate([160, -53, 2]) cube([14, 76, 3]);
 		}
-		translate([4, 0]) hole(6); // 3
-		translate([90, -14]) hole(2); // 2
-		translate([170.5, -10]) hole(2); // 1a
-		translate([168.5, -35]) hole(2); // 1b
-		translate([45, -5, -0.01]) cube([20, 40, 5]);
-		translate([75, -5, -0.01]) cube([20, 40, 5]);
-		translate([105, -5, -0.01]) cube([20, 40, 5]);
-		translate([135, -5, -0.01]) cube([20, 40, 5]);
-		translate([148, -85, -0.01]) cube([15, 50, 5]);
+		translate([4, 0, 0]) hole(6); // 3
+		translate([90, -14, 0]) hole(3); // 2
+		translate([170.5, -10, 0]) hole(3); // 1a
+		translate([168.5, -35, 0]) hole(3); // 1b
+		translate([85, -20, -0.01]) cube([10, 10, 3]);
+		translate([164, -48, -0.01]) cube([10, 66, 2]);
+
+		translate([162, -82, 0]) thinHole();
+		translate([138, -82, 0]) thinHole();
+		translate([162, 36, 0]) thinHole();
+		translate([138, 36, 0]) thinHole();
+
+		translate([45, -5, -0.01]) cube([60, 35, 7]);
+		translate([140, -70, -0.01]) cube([18, 93, 7]);
 	}
 
-	translate([50, 47, -37]) leg();
-	translate([140, 47, -37]) leg();
-	translate([150, -92, -37]) leg();
+	translate([70, 30, -35]) cube([6, 6, 35]);
+	translate([148, 30, -35]) leg();
+	translate([150, -78, -35]) leg();
 }
 
 module divider() {
@@ -197,8 +220,8 @@ module divider() {
 	}
 }
 
-intersection() {
-	podvozek();
-	translate([160, 0, 0]) divider();
+%intersection() {
+	//podvozek();
+	//translate([160, 0, 0]) divider();
 }
-//translate([93.5, 24, 40]) holder();
+translate([93.5, 24, 35+thickness]) holder();

@@ -50,7 +50,7 @@ M403 E4 F0
 G1 Y-3.0 F1000.0
 G1 Z0.4 F1000.0
 ; select extruder
-T4
+T3
 ; initial load
 G1 X55.0 E29.0 F1073.0
 M73 Q0 S246
@@ -75,7 +75,7 @@ M900 K30 ; Filament gcode
 G21 ; set units to millimeters
 G90 ; use absolute coordinates
 M83 ; use relative distances for extrusion
-T4
+T3
 M900 K30 ; Filament gcode
 ;BEFORE_LAYER_CHANGE
 G92 E0.0
