@@ -5,8 +5,8 @@ a = 15; // jednotková vzdálenost
 numCubes = 10; // počet jednotek
 
 border = 3; // prostor kolem hranolku, respektive vzdálenost mezi nimi
-boardHeight = 7; // plná tloušťka destičky
-indentDepth = 5; // hloubka díry pro hranolek
+boardHeight = 9; // plná tloušťka destičky
+indentDepth = 7; // hloubka díry pro hranolek
 extraSpace = 0.5; // rezerva
 
 roundness = 1; // zaoblení
@@ -19,8 +19,8 @@ boardSize = numCubes * chunkSize + border;
 module base() {
 	translate([roundness, roundness, 0]) sphere(roundness);
 	translate([chunkSize + border - roundness, roundness, 0]) sphere(roundness);
-	translate([10*a + 2*border - roundness, boardSize - chunkSize - roundness, 0]) sphere(roundness);
-	translate([10*a + 2*border - roundness, boardSize - roundness, 0]) sphere(roundness);
+	translate([10*a + 2*border + 2*extraSpace - roundness, boardSize - chunkSize - roundness, 0]) sphere(roundness);
+	translate([10*a + 2*border + 2*extraSpace - roundness, boardSize - roundness, 0]) sphere(roundness);
 	translate([roundness, boardSize - roundness, 0]) sphere(roundness);
 }
 
@@ -36,7 +36,7 @@ module board() {
 		}
 		// indents
 		for (i = [1 : numCubes]) {
-			translate([border, border + (i-1) * chunkSize, 3]) chunk(i);
+			translate([border, border + (i-1) * chunkSize, boardHeight-indentDepth]) chunk(i);
 		}
 	}
 }
