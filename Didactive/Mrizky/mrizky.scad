@@ -22,23 +22,36 @@ module oval(size=[1, 1, 1], r = 1) {
 	}
 }
 
-module base(numPieces) {
-	row1 = (numPieces - numPieces % 2) / 2;
-	row2 = row1 + numPieces % 2;
-
+module unitBase() {
 	difference() {
-		translate([roundnessZ, roundnessZ]) union() {
-			oval([2*outerSize - 2*roundnessZ, row1*outerSize - 2*roundnessZ, height], roundnessFlat);
-			oval([outerSize - 2*roundnessZ, row2*outerSize - 2*roundnessZ, height], roundnessFlat);
-		}
-		translate([edge, edge, -0.01]) for (i = [0:row2]) {
-			translate([0, i*outerSize, 0]) cube([innerSize, innerSize, 1.01*height]);
-			translate([outerSize, i*outerSize, 0]) cube([innerSize, innerSize, 1.01*height]);
+		translate([roundnessZ, roundnessZ])
+		oval([outerSize - 2*roundnessZ, outerSize - 2*roundnessZ, height], roundnessFlat);
+		translate([edge, edge, -0.01]) cube([innerSize, innerSize, 1.01*height]);
+	}
+}
+
+module base(numPieces) {
+	if (numPieces == 1) {
+		unitBase();
+	}
+	else {
+		row1 = (numPieces - numPieces % 2) / 2;
+		row2 = row1 + numPieces % 2;
+
+		difference() {
+			translate([roundnessZ, roundnessZ]) union() {
+				oval([2*outerSize - 2*roundnessZ, row1*outerSize - 2*roundnessZ, height], roundnessFlat);
+				oval([outerSize - 2*roundnessZ, row2*outerSize - 2*roundnessZ, height], roundnessFlat);
+			}
+			translate([edge, edge, -0.01]) for (i = [0:row2]) {
+				translate([0, i*outerSize, 0]) cube([innerSize, innerSize, 1.01*height]);
+				translate([outerSize, i*outerSize, 0]) cube([innerSize, innerSize, 1.01*height]);
+			}
 		}
 	}
 }
 
 minkowski() {
-	base(7);
+	base(1);
 	sphere(roundnessZ);
 }
