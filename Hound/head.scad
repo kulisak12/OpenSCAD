@@ -27,17 +27,45 @@ module headPart() {
     }
 }
 
-import("headPart.stl");
+module eyes() {
+    translate([0, 8.5, 0.5]) sphere(1.5);
+    translate([3, 9, 4]) sphere(1.5);
+    translate([-3, 9, 4]) sphere(1.5);
+}
+
+module neckShape() {
+    circle(4);
+    translate([4, 0]) circle(1);
+    translate([0, -4]) circle(1);
+}
+
+difference() {
+    import("headPart.stl");
+    translate([-15, 7, 8.5]) sphere(1);
+    translate([-15, -7, 8.5]) sphere(1);
+}
+
 difference() {
     scale([1.1, 1.1, 1.1]) import("headPart.stl");;
     translate([10, 0, 15]) rotate([0, -50, 0]) cube(50, center=true);
     translate([-2, 0, 0]) rotate([0, -40, 0]) cube(20, center=true);
 }
-intersection() {
-    scale([1.05, 1.1, 1.1]) import("headPart.stl");
-    union() {
-        translate([0, 10, 5]) rotate([90, 0, 0]) cylinder(h=20,d=15);
-        translate([15, 0, 17]) cube(30, center=true);
-        translate([-2, 0, 17]) rotate([0, -30, 0]) cube(20, center=true);
+
+difference() {
+    intersection() {
+        scale([1.05, 1.1, 1.1]) import("headPart.stl");
+        union() {
+            translate([0, 10, 5]) rotate([90, 0, 0]) cylinder(h=20,d=15);
+            translate([15, 0, 17]) cube(30, center=true);
+            translate([-2, 0, 17]) rotate([0, -30, 0]) cube(20, center=true);
+        }
     }
+    translate([24, -5, 4]) rotate([0, -50, 0]) cube([4, 2, 1]);
+    translate([24, -1, 4]) rotate([0, -50, 0]) cube([4, 2, 1]);
+    translate([24, 3, 4]) rotate([0, -50, 0]) cube([4, 2, 1]);
 }
+
+eyes();
+mirror([0, 1, 0]) eyes();
+
+translate([-50, 0, -10]) rotate([0, 70, 0]) linear_extrude(height=35, twist=100) neckShape();

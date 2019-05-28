@@ -1,19 +1,19 @@
 $fn = 100;
 
 module shape() {
-    translate([-6, -10])
+    translate([-5, -10])
     difference() {
         intersection() {
             polygon([
                 [0, 0],
-                [0, 20],
-                [11, 25],
-                [15, 22],
+                [0, 24],
+                [10, 25], // 5, 25 for front
+                [15, 16],
                 [8, 0]
             ]);
-            translate([100, 10]) circle(100);
+            translate([80, 15]) circle(80);
         }
-        translate([106, -19]) circle(100);
+        translate([87, -10]) circle(80);
     }
 }
 
@@ -24,7 +24,8 @@ module joint() {
     }
 }
 
+rotate([90, 0, 0])
 difference() {
     linear_extrude(height=2, scale=0.9) shape();
-    translate([1, 8, 1.7]) joint();
+    translate([0, 7, 1.7]) joint();
 }

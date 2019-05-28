@@ -31,13 +31,13 @@ module joint() {
     scale([1, 2.4, 1]) sphere(1.6, $fn=40);
 }
 
-rotate([0, -10, 0]) linear_extrude(height=30, scale=0.85, twist=-5) shape();
-mirror([0, 0, 1]) linear_extrude(height=30, scale=0.6, twist=-5) shape();
+rotate([0, -10, 0]) linear_extrude(height=20, scale=0.85, twist=-5) shape();
+mirror([0, 0, 1]) linear_extrude(height=20, scale=0.6, twist=-5) shape();
 intersection() {
     translate([-10, 0, -1]) rotate([90, 0, 0]) scale([1, 1, 0.95])
     rotate_extrude($fn=100) translate([10, 0]) shape(); 
     translate([2, 0, 0]) cube([8, 10, 10], center=true);
 }
 
-translate([-5.5, 0, 31.2]) rotate([0, 0, 5]) scale([0.9, 0.7, 0.9]) joint();
-translate([-0, 0, -32]) rotate([0, 0, 5]) scale([0.8, 0.5, 0.8]) joint();
+translate([-3.9, 0, 21.8]) rotate([0, 0, 5]) scale([0.9, 0.7, 0.9]) joint();
+translate([-0, 0, -22]) rotate([0, 0, 5]) scale([0.8, 0.5, 0.8]) joint();
