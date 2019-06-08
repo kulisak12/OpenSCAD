@@ -2,10 +2,11 @@ $fn = 50;
 include<logo.scad>
 
 a = 50; // strana krychle v mm
-rawMagnetDiameter = 16; // prumer magnetu
-rawMagnetHeight = 5; // vyska magnetu
-indentSize = 3; // velikost vystupku
-indentWidth = 0.7; // tloustka vystupku
+includeMagnets = true; // včetně děr na magnety
+rawMagnetDiameter = 16; // průměr magnetu
+rawMagnetHeight = 5; // výška magnetu
+indentSize = 3; // velikost výstupku
+indentWidth = 0.7; // tloušťka výstupku
 
 logoDepth = 0.5; // hloubka loga
 
@@ -28,8 +29,10 @@ module pyramid() {
 		cube(a);
 		translate([0, -1, a]) rotate([0, 45, 0]) cube(2*a);
 		translate([-1, 0, a]) rotate([-45, 0, 0]) cube(2*a);
-		rotate([0, 45, 0]) magnetHole();
-		rotate([-45, 0, 0]) magnetHole();
+		if (includeMagnets) {
+			rotate([0, 45, 0]) magnetHole();
+			rotate([-45, 0, 0]) magnetHole();
+		}
 	}
 }
 
