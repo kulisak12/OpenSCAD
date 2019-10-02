@@ -96,10 +96,10 @@ module puzzle(size, larger) {
 
 module splitter(larger) {
 	translate([-100, -1, -1]) cube([100 + 0.4 * endSize * a, boardSize + 2, boardHeight + 2]);
-	translate([0.4 * endSize * a, border + a/2 + extraSpace, -1])
-	linear_extrude(boardHeight + 2) puzzle(0.75*a, larger);
-	translate([0.4 * endSize * a, boardSize - border - a/2 - extraSpace, -1])
-	linear_extrude(boardHeight + 2) puzzle(0.75*a, larger);
+	for (i = [0 : numCubes - 1]) {
+			translate([0.4 * endSize * a, border + a/2 + extraSpace + i * chunkSize, -1])
+			linear_extrude(boardHeight + 2) puzzle(0.75*a, larger);
+		}
 }
 
 /*
