@@ -8,6 +8,16 @@ module unitParallelogram() {
 	polygon([[0, 0], [u, 0], [0, u], [-u, u]]);
 }
 
+module unitPyramid(n) {
+	step = 360 / n;
+		hull() {
+		for (i = [0: n]) {
+			translate([cos(i*step) * u, sin(i*step) * u, 0]) cube(0.01, center=true);
+		}
+		translate([0, 0, u]) cube(0.01, center=true);
+	}
+}
+
 module unitLine() {
 	translate([u/2, 0, 0]) cube([u, 0.01, 0.01], center=true);
 }
@@ -33,3 +43,19 @@ module transform(A, B, C) {
     
     multmatrix(m) children();
 } 
+
+module oneAxisTransform(S, A, V) {
+	// all y coords are switched
+    dS = [0, 0, 0];
+    dA = [A.x - S.x, - A.y + S.y, A.z - S.z];
+    dV = [V.x - S.x, - V.y + S.y, V.z - S.z];
+	dANormal = cross([0, 0, 1], dA);
+    m = [
+        [dA.x, dANormal.x, dV.x, u*S.x],
+        [dA.y, dANormal.y,dV.y, -u*S.y],
+        [dA.z, dANormal.z, dV.z, u*S.z],
+        [0, 0, 0, 1]
+    ];
+    
+    multmatrix(m) children();
+}
